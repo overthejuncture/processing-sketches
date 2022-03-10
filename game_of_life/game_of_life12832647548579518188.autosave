@@ -1,0 +1,66 @@
+int cellsXNum = 10;
+int cellsYNum = 10;
+int[][] cells = new int[cellsXNum][cellsYNum];
+int cellSize = 20;
+
+void setup() {
+    size(600, 400);
+    fillCells(cells);
+    for (int i = 0; i < cells.length; i++) {
+        println(cells[i]);
+    }   
+}
+
+void draw() {
+    for (int i = 0; i < cells.length; i++) {
+        for (int j = 0; j < cells.length; j++) {
+            if (cells[i][j] == 1) {
+                fill(255);
+            } else {
+                fill(0);
+            }
+            square(i * cellSize, j * cellSize, cellSize);
+        }
+    }
+    updateCells(cells);
+}
+
+int[][] updateCells(int[][] cells) {
+    int[][] oldCells = cells;
+    for (int i = 0; i < cells.length; i++) {
+        for (int j = 0; j < cells.length; j++) {
+            cells[i][j] = checkCell(oldCells, i, j);
+        }
+    }
+    return cells;
+}
+
+int checkCell(int[][] cells, int x, int y) {
+    int neighbours = 0;
+    boolean alive = cells[x][y] == 1;
+    if (alive) {
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                int posX = x + i;
+                int posY = y + j;
+                if (posX < 0 || posX > cellsXNum || posY < 0 || posY > cellsYNum) {
+                    continue;
+                }qq
+                if (cells[posX][posY] == 1) {
+                    neighbours++;
+                }
+            }
+        }
+    }
+    println(neighbours);
+    return neighbours;
+}
+
+int[][] fillCells(int[][] cells) {
+    for (int i = 0; i < cells.length; i++) {
+        for (int j = 0; j < cells[i].length; j++) {
+            cells[i][j] = Math.round(random(1));
+        } 
+    }
+    return cells;
+}
